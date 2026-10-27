@@ -1,5 +1,5 @@
 import{createContext} from 'react'
-import { doctors } from '../assets/assets.js'
+import {doctors} from '../assets/assets.js'
 
 
 export const AppContext = createContext()
