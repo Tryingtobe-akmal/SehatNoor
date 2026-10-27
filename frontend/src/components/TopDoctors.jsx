@@ -20,7 +20,7 @@ const TopDoctors = () => {
         {doctors.slice(0, 10).map((doctor) => (
           <Link
             key={doctor._id}
-            to={`/my-appointments/${doctor._id}`}
+            to={`appointments/${doctor._id}`}
             className="group overflow-hidden rounded-lg border border-[#d9ddff] bg-white transition duration-300 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5f6fff]"
           >
             <div className="aspect-square overflow-hidden bg-[#e9edff]">
