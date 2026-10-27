@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
-import { doctors } from '../assets/assets.js'
 import { useNavigate } from 'react-router-dom'
+import {AppContext} from '../context/AppContext.jsx'
+import { useContext } from 'react'
 
 const TopDoctors = () => {
   const navigate = useNavigate()
+  const {doctors} = useContext(AppContext)
 
   return (
     <section className="py-12 text-center sm:py-16" aria-labelledby="top-doctors-title">
