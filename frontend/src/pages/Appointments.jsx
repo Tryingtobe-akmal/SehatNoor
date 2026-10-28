@@ -9,12 +9,57 @@ const Appointments = () => {
   const { docId } = useParams()
 
   const [doctorDetails, setDoctorDetails] = React.useState(null)
+  const [docSlots,setDocSlots] = React.useState([])
+
+  const getAvailableSlots = async () => {
+    setDocSlots([])
+    //getting current date
+    let today = new Date();
+
+    for(let i=0;i<7;i++){
+      //getting date with index
+      let CurrDate = new Date(today);
+      CurrDate.setDate(today.getDate() + i);
+
+      //setting end time of the date with index
+      let endTime = new Date(today);
+      endTime.setDate(today.getDate() + i);
+      endTime.setHours(21, 0, 0, 0); // Set to the end of the day
+
+      //setting hours
+      if(today.getDate() === CurrDate.getDate()){
+        CurrDate.setHours(CurrDate.getHours()>10 ? CurrDate.getHours()+1 : 10); // Set to the next hour or 10 AM
+        CurrDate.setMinutes(CurrDate.getMinutes() > 30 ? 30 : 0); // Set to the next half hour 
+      }else{
+        CurrDate.setHours(10); // Set to 10 AM
+        CurrDate.setMinutes(0); // Set to 0 minutes
+      }
+
+      let timeSlots = []
+
+      while (CurrDate <= endTime) {
+        let formattedTime = CurrDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        timeSlots.push({
+          datetime: new Date(CurrDate), // Store the actual Date object
+          formattedTime: formattedTime
+        });
+        CurrDate.setMinutes(CurrDate.getMinutes() + 30); // Increment by 30 minutes
+      }
+      setDocSlots(prev => [...prev,timeSlots]); 
+    }
+  }
 
   React.useEffect(() => { 
    fetchDoctorDetails(docId).then((details) => {
       setDoctorDetails(details)
     })
   }, [doctors,docId])
+
+  React.useEffect(() => {
+    getAvailableSlots()
+    console.log('Available slots:', docSlots)
+  }, [doctorDetails])
+
 
   const fetchDoctorDetails = async (docId) => {
     const doctor = doctors.find((doc) => doc._id === docId)
