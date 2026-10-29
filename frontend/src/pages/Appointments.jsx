@@ -10,6 +10,9 @@ const Appointments = () => {
 
   const [doctorDetails, setDoctorDetails] = React.useState(null)
   const [docSlots,setDocSlots] = React.useState([])
+  const [slotIndex,setSlotIndex] = React.useState(0)
+  const [slotTime,setSlotTime] = React.useState(null)
+  let daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
   const getAvailableSlots = async () => {
     setDocSlots([])
@@ -107,6 +110,32 @@ const Appointments = () => {
             Appointment fee: <span className="font-semibold text-gray-900">${doctorDetails.fees}</span>
           </p>
         </div>
+      </div>
+      {/* Booking Slots */}
+      <div className="sm:ml-40 sm:pl-4 sm:py-4 mt-4 sm:mt-0 font-medium text-gray-700">
+        <p className="text-sm text-gray-500">Select a date and time for your appointment</p>
+        <div className='flex gap-3 item-centre w-full overflow-x-scroll mt-4'>
+          {
+            docSlots.length && docSlots.map((item,index)=>
+              <div key={index} onClick={() => setSlotIndex(index)} className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ?'bg-[#5f6fff] text-white' : 'border border-gray-200' }`} >
+                <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
+                <p>{item[0] && item[0].datetime.getDate()}</p>
+              </div>
+            )
+          }
+        </div>
+        <div className='flex gap-2 item-centre w-full overflow-x-scroll mt-4'>
+          {
+            docSlots.length && docSlots[slotIndex].map((item,index)=>
+              <p key={index} onClick={() => setSlotTime(item.datetime)} className={`text-sm font-light flex flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${item.datetime === slotTime ? 'bg-[#5f6fff] text-white' : 'bg-gray-200 text-gray-700' }`} >
+                {item.formattedTime.toLowerCase()}
+              </p>
+            )
+          }
+        </div>
+        <button className="mt-4 rounded-full bg-[#5f6fff] py-3 px-14 text-sm font-light text-white hover:bg-[#4a5de0] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          Book an Appointment
+        </button>
       </div>
     </section>
   )
