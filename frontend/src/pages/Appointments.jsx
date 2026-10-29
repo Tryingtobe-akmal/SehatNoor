@@ -117,13 +117,16 @@ const Appointments = () => {
         <p className="text-sm text-gray-500">Select a date and time for your appointment</p>
         <div className='flex gap-3 item-centre w-full overflow-x-scroll mt-4'>
           {
-            docSlots.length && docSlots.map((item,index)=>
-              <div key={index} onClick={() => setSlotIndex(index)} className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ?'bg-[#5f6fff] text-white' : 'border border-gray-200' }`} >
-                <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
-                <p>{item[0] && item[0].datetime.getDate()}</p>
-              </div>
-            )
-          }
+            docSlots.length && docSlots.map((item,index)=> {
+              if(item.length > 0){
+                return (
+                <div key={index} onClick={() => setSlotIndex(index)} className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ?'bg-[#5f6fff] text-white' : 'border border-gray-200' }`} >
+                  <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
+                  <p>{item[0] && item[0].datetime.getDate()}</p>
+              </div>)
+              }
+            })}
+           
         </div>
         <div className='flex gap-2 item-centre w-full overflow-x-scroll mt-4'>
           {
