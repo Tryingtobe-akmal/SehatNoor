@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useContext } from 'react'
 import { AppContext } from '../context/AppContext.jsx'
 import {assets} from '../assets/assets.js'
+import RelatedDoctors from '../components/RelatedDoctors.jsx'
 
 const Appointments = () => {
   const { doctors } = useContext(AppContext)
@@ -137,6 +138,8 @@ const Appointments = () => {
           Book an Appointment
         </button>
       </div>
+      {/* Listing Related Doctors */}
+      <RelatedDoctors doctorDetails={doctorDetails} speciality={doctorDetails.speciality} />
     </section>
   )
 }
