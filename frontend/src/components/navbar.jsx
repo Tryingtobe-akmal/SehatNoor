@@ -7,6 +7,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const [showMenu, setShowMenu] = useState(false);
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
     const[token,setToken] = useState(true);
 
   return (
@@ -34,13 +35,15 @@ const Navbar = () => {
             {
                 token ?
                  <div className='flex items-center gap-2 group relative'>
-                    <img  className='w-8 rounded-full cursor-pointer' src={assets.profile_pic} alt="" />
-                    <img className='w-2.5 cursor-pointer' src={assets.dropdown_icon} alt="" />
-                    <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block ">
+                    <button type="button" onClick={() => setShowProfileMenu((open) => !open)} aria-expanded={showProfileMenu} aria-label="Toggle profile menu" className="flex items-center gap-2">
+                        <img className='w-8 rounded-full cursor-pointer' src={assets.profile_pic} alt="" />
+                        <img className='w-2.5 cursor-pointer' src={assets.dropdown_icon} alt="" />
+                    </button>
+                    <div className={`absolute top-full right-0 pt-2 text-base font-medium text-gray-600 z-20  md: group-hover:block ${showProfileMenu ? 'block' : 'hidden '}`}>
                         <div className="min-w-48 bg-stone-100 rounded flex flex-col bg-white gap-4 p-4 shadow-lg">
-                            <p onClick={()=>navigate("/my-profile")} className='hover:text-black cursor-pointer'>My Profile</p>
-                            <p onClick={()=>navigate("/my-appointments")} className='hover:text-black cursor-pointer'>My Appointments</p>
-                            <p onClick={()=>setToken(false)} className='hover:text-black cursor-pointer'>Logout</p>
+                            <p onClick={()=>{setShowProfileMenu(false); navigate("/my-profile")}} className='hover:text-black cursor-pointer'>My Profile</p>
+                            <p onClick={()=>{setShowProfileMenu(false); navigate("/my-appointments")}} className='hover:text-black cursor-pointer'>My Appointments</p>
+                            <p onClick={()=>{setShowProfileMenu(false); setToken(false)}} className='hover:text-black cursor-pointer'>Logout</p>
                         </div>
                     </div>
                 </div> :
