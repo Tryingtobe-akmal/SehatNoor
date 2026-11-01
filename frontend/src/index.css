@@ -7,3 +7,38 @@
 .active hr{
     @apply block;
 }
+
+/* Match the existing hover feedback while a control is pressed on touch screens. */
+@media (hover: none) and (pointer: coarse) {
+    [class~="hover:bg-[#5f6fff]"]:active { background-color: #5f6fff; }
+    [class~="hover:bg-[#4a5ce0]"]:active { background-color: #4a5ce0; }
+    [class~="hover:bg-[#4a5de0]"]:active { background-color: #4a5de0; }
+    [class~="hover:bg-gray-100"]:active { background-color: #f3f4f6; }
+    [class~="hover:bg-black"]:active { background-color: #000; }
+    [class~="hover:bg-blue-600"]:active { background-color: #2563eb; }
+    [class~="hover:bg-red-600"]:active { background-color: #dc2626; }
+
+    [class~="hover:text-white"]:active { color: #fff; }
+    [class~="hover:text-black"]:active { color: #000; }
+    [class~="hover:text-[#5f6fff]"]:active { color: #5f6fff; }
+    [class~="hover:text-[#4a5ce0]"]:active { color: #4a5ce0; }
+
+    [class~="hover:-translate-y-1"]:active { transform: translateY(-0.25rem); }
+    [class~="hover:translate-y-[-10px]"]:active { transform: translateY(-10px); }
+    [class~="hover:shadow-lg"]:active {
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+    .group:active [class~="group-hover:scale-[1.03]"] { transform: scale(1.03); }
+
+    [class~="px-10"][class~="py-10"][class~="text-[15px]"]:active {
+        background-color: #5f6fff;
+        color: #fff;
+    }
+}
+
+/* Keep the existing profile dropdown hover behavior on desktop. */
+@media (min-width: 768px) {
+    .group:hover > [class*="group-hover:block"] {
+        display: block;
+    }
+}
