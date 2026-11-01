@@ -12,6 +12,8 @@ export default function Doctors() {
   const {doctors} = useContext(AppContext)
   const navigate = useNavigate()
 
+  const [showFilters, setShowFilters] = React.useState(false)
+
   const filterDoctorsBySpecialty = (specialty) => { 
     if(specialty){
       const filtered = doctors.filter((doctor) => doctor.speciality.toLowerCase() === specialty.toLowerCase())
@@ -30,13 +32,14 @@ export default function Doctors() {
     <div>
       <p className='text-gray-600'>Browse through the doctors specialist.</p>
       <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
-        <div className='flex flex-col gap-4 text-sm text-gray-600'>
-          <p className='w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => specialty === 'General Physician'? navigate('/doctors') : navigate('/doctors/General Physician')} style={{ backgroundColor: specialty === 'General Physician' ? '#e5e7eb' : 'white' }}>General Physician</p>
-          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => specialty === 'Gynecologist'? navigate('/doctors') : navigate('/doctors/Gynecologist')} style={{ backgroundColor: specialty === 'Gynecologist' ? '#e5e7eb' : 'white' }}>Gynecologist</p>
-          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => specialty === 'Dermatologist'? navigate('/doctors') : navigate('/doctors/Dermatologist')} style={{ backgroundColor: specialty === 'Dermatologist' ? '#e5e7eb' : 'white' }}>Dermatologist</p>
-          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => specialty === 'Pediatricians'? navigate('/doctors') : navigate('/doctors/Pediatricians')} style={{ backgroundColor: specialty === 'Pediatricians' ? '#e5e7eb' : 'white' }}>Pediatricians</p>
-          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => specialty === 'Neurologist'? navigate('/doctors') : navigate('/doctors/Neurologist')} style={{ backgroundColor: specialty === 'Neurologist' ? '#e5e7eb' : 'white' }}>Neurologist</p>
-          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => specialty === 'Gastroenterologist'? navigate('/doctors') : navigate('/doctors/Gastroenterologist')} style={{ backgroundColor: specialty === 'Gastroenterologist' ? '#e5e7eb' : 'white' }}>Gastroenterologist</p>
+        <button onClick={() => setShowFilters((prev) => !prev)} className={`px-3 py-1 border rounded text-sm font-medium sm:hidden ${showFilters ? 'bg-[#5f6fff] text-white' : ''} `}>Filters</button>
+        <div className={ `flex-col gap-4 text-sm text-gray-600 ${showFilters ? 'flex' : 'hidden sm:flex'}`}>
+          <p className='w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => {specialty === 'General Physician'? navigate('/doctors') : navigate('/doctors/General Physician'); setShowFilters(false);}} style={{ backgroundColor: specialty === 'General Physician' ? '#e5e7eb' : 'white' }}>General Physician</p>
+          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => {specialty === 'Gynecologist'? navigate('/doctors') : navigate('/doctors/Gynecologist'); setShowFilters(false);}} style={{ backgroundColor: specialty === 'Gynecologist' ? '#e5e7eb' : 'white' }}>Gynecologist</p>
+          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => {specialty === 'Dermatologist'? navigate('/doctors') : navigate('/doctors/Dermatologist'); setShowFilters(false);}} style={{ backgroundColor: specialty === 'Dermatologist' ? '#e5e7eb' : 'white' }}>Dermatologist</p>
+          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => {specialty === 'Pediatricians'? navigate('/doctors') : navigate('/doctors/Pediatricians'); setShowFilters(false);}} style={{ backgroundColor: specialty === 'Pediatricians' ? '#e5e7eb' : 'white' }}>Pediatricians</p>
+          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => {specialty === 'Neurologist'? navigate('/doctors') : navigate('/doctors/Neurologist'); setShowFilters(false);}} style={{ backgroundColor: specialty === 'Neurologist' ? '#e5e7eb' : 'white' }}>Neurologist</p>
+          <p className='w-[94vw] sm:w-auto pl-3  py-1.5 pr-16 border border-gray-300 rounded transition duration-300 hover:bg-gray-100 cursor-pointer' onClick={() => {specialty === 'Gastroenterologist'? navigate('/doctors') : navigate('/doctors/Gastroenterologist'); setShowFilters(false);}} style={{ backgroundColor: specialty === 'Gastroenterologist' ? '#e5e7eb' : 'white' }}>Gastroenterologist</p>
         </div>
         <div className=" grid grid-cols-2 gap-4 text-left sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 xl:grid-cols-5">
           {

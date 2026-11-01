@@ -6,7 +6,7 @@ import { useState } from 'react'
 const Navbar = () => {
     const navigate = useNavigate();
 
-    const [showMenu, setShowMenu] = useState(true);
+    const [showMenu, setShowMenu] = useState(false);
     const[token,setToken] = useState(true);
 
   return (
@@ -47,6 +47,30 @@ const Navbar = () => {
                  <button onClick={()=>navigate("/login")} className="bg-[#5f6FFF] text-white py-3 px-8 rounded-full font-light  hover:bg-[#4a5ce0] hidden md:block" >Create Account</button>
           }
         </div> 
+        <img onClick={()=>setShowMenu(true)} src={assets.menu_icon} className="w-6 cursor-pointer md:hidden" alt="" />
+        {/* Mobile Menu */}
+        {showMenu && (
+          <div className="fixed top-0 right-0 bottom-0 w-full bg-white z-20 transition-transform duration-300 ease-in-out md:hidden">
+            <div className="flex justify-between items-center p-4 border-b border-gray-300">
+                <img className="w-36" src={assets.logo} alt="" />
+                <img className="w-7" onClick={()=>setShowMenu(false)} src={assets.cross_icon} alt="Close menu" />
+            </div>
+            <div className="flex flex-col items-center gap-2 mt-10 text-lg font-medium">
+                <NavLink className="px-4 py-2 rounded-full inline-block " to="/" onClick={()=>setShowMenu(false)}>
+                    <p>HOME</p>
+                </NavLink>
+                <NavLink className="px-4 py-2 rounded-full inline-block " to="/doctors" onClick={()=>setShowMenu(false)}>
+                    <p>ALL DOCTORS</p>
+                </NavLink>
+                <NavLink className="px-4 py-2 rounded-full inline-block "to="/about" onClick={()=>setShowMenu(false)}>
+                    <p>ABOUT</p>
+                </NavLink>
+                <NavLink className="px-4 py-2 rounded-full inline-block " to="/contact" onClick={()=>setShowMenu(false)}> 
+                    <p>CONTACT</p>
+                </NavLink>
+            </div>
+          </div>
+        )}
     </div>
   )
 }
