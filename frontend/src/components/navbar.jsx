@@ -69,6 +69,11 @@ const Navbar = () => {
                     <p>CONTACT</p>
                 </NavLink>
             </div>
+            {!token && (
+                <button onClick={()=>{setShowMenu(false); navigate("/login")}} className="bg-[#5f6FFF] text-white py-3 px-8 rounded-full font-light hover:bg-[#4a5ce0] mt-5 mx-auto block">
+                    Create Account
+                </button>
+            )}
           </div>
         )}
     </div>
@@ -76,3 +81,6 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+
+
