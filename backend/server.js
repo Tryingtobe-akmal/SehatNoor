@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/mongodb.js';
 import morgan from 'morgan';
+import cloudinaryConfig from './config/cloudinary.js';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 connectDB();
+cloudinaryConfig();
 
 
 // Middleware
