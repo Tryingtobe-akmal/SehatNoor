@@ -8,7 +8,19 @@ import jwt from 'jsonwebtoken';
 const addDoctor = async (req, res) => {
 
   try {
-    
+      if (typeof req.body.address === 'string') {
+        
+          try {
+            req.body.address = JSON.parse(req.body.address);
+          } catch {
+            return res.status(400).json({
+              success: false,
+              message: 'Address must be valid JSON'
+            });
+      }
+    }
+
+
     const {name, email, password,speciality,degree,experience,about,fees,address} = req.body;
 
     // Get the uploaded image path(using multer middleware)
