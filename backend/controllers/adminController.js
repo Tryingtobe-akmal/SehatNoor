@@ -127,4 +127,22 @@ const adminLogin = async (req, res) => {
   }
 };
 
-export { adminLogin, addDoctor };
+//Api for getting all doctors
+const getAllDoctors = async (req, res) => {
+  try {
+    const doctors = await Doctor.find({}).select('-password'); // Exclude the password field from the response
+    res.status(200).json({
+      success: true,
+      message: "All doctors retrieved successfully",
+      doctors
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve doctors",
+      error: error.message
+    });
+  }
+};
+
+export { adminLogin, addDoctor, getAllDoctors };
