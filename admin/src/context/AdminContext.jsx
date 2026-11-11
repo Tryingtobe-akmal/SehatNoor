@@ -44,7 +44,7 @@ const AdminContextProvider = (props) => {
 // Function to change the availability of a doctor
   const changeAvailability = async (doctorId) => {
     try {
-        const response = await axios.post(`${backendUrl}/api/admin/change-availability`, { doctorId }, {
+        const response = await axios.post(`${backendUrl}/api/admin/change-availability`, { id: doctorId }, {
           headers: {
             'Authorization': `Bearer ${aToken}`
           }

@@ -158,12 +158,12 @@ const changeAvailability = async (req, res) => {
         message: "Doctor not found"
       });
     }
-    await doctor.findByIdAndUpdate(id, { availability: !doctor.availability }, { new: true });
+    const updatedDoctor = await Doctor.findByIdAndUpdate(id, { availability: !doctor.availability }, { new: true });
 
     res.status(200).json({
       success: true,
       message: "Doctor availability changed successfully",
-      doctor
+      UpdatedDoctor: updatedDoctor
     });
 
   }catch(error){
