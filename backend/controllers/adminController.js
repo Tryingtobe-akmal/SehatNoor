@@ -4,6 +4,7 @@ import Doctor from '../models/doctor.js';
 import { v2 as cloudinary } from 'cloudinary';
 import jwt from 'jsonwebtoken';
 
+
 //API FOR ADDIFNG DOCTOR 
 const addDoctor = async (req, res) => {
 
@@ -145,4 +146,33 @@ const getAllDoctors = async (req, res) => {
   }
 };
 
-export { adminLogin, addDoctor, getAllDoctors };
+//Change availability of doctor
+const changeAvailability = async (req, res) => {
+  try{
+    const { id } = req.body;
+
+    const doctor = await Doctor.findById(id);
+    if (!doctor) {
+      return res.status(404).json({
+        success: false,
+        message: "Doctor not found"
+      });
+    }
+    await doctor.findByIdAndUpdate(id, { availability: !doctor.availability }, { new: true });
+
+    res.status(200).json({
+      success: true,
+      message: "Doctor availability changed successfully",
+      doctor
+    });
+
+  }catch(error){
+    res.status(500).json({
+      success: false,
+      message: "Failed to change availability",
+      error: error.message
+    });
+  }
+}
+
+export { adminLogin, addDoctor, getAllDoctors, changeAvailability };

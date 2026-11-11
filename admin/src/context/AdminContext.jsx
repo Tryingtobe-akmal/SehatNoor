@@ -14,6 +14,7 @@ const AdminContextProvider = (props) => {
 
   const [doctors,setDoctors]=useState(null);
 
+  // Function to fetch all doctors from the backend
   const getAllDoctors=async()=>{
     try {
       const response = await axios.post(`${backendUrl}/api/admin/get-all-doctors`, {}, {
@@ -40,15 +41,33 @@ const AdminContextProvider = (props) => {
 
     }
   }
-  
+// Function to change the availability of a doctor
+  const changeAvailability = async (doctorId) => {
+    try {
+        const response = await axios.post(`${backendUrl}/api/admin/change-availability`, { doctorId }, {
+          headers: {
+            'Authorization': `Bearer ${aToken}`
+          }
+        });
+      if(response.data.success){
+        toast.success(response.data.message);
+        getAllDoctors(); // Refresh the doctors list after changing availability
+      }
+    } catch (error) {
+      toast.error(error.response.messsage);
+    }
+  }
+
     const value={
       aToken,
       setAToken,
       doctors,
       getAllDoctors,
-      backendUrl
+      backendUrl,
+      changeAvailability
 
     }
+
 
   return (
     <AdminContext.Provider value={value}>
@@ -56,5 +75,6 @@ const AdminContextProvider = (props) => {
     </AdminContext.Provider>
   )
 }
+
 
 export { AdminContext, AdminContextProvider }
