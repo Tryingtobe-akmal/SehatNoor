@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
 
+//API endpoint to register a new user
+
 const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
     try {
@@ -43,4 +45,39 @@ const registerUser = async (req, res) => {
     }
 };
 
-export { registerUser };
+
+//API endpoint to login a user
+
+const loginUser = async (req, res) => {
+
+    const { email, password } = req.body;
+
+    try {
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).json({ success: false, message: 'Please provide all required fields' });
+        }
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ success: false, message: 'Invalid credentials' });
+        }
+        // Compare password
+        const isMatch = await bcrypt.compare(password, user.password);
+        
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: 'Invalid credentials' });
+        }
+        // Generate JWT token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Return success response with token
+        res.status(200).json({ success: true, message: 'User logged in successfully', token });
+
+    } catch (error) {
+        console.error('Error logging in user:', error);
+        res.status(500).json({ success: false, message: 'Server error', error });
+    }
+};
+
+export { registerUser, loginUser };
