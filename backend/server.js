@@ -6,7 +6,8 @@ import morgan from 'morgan';
 import cloudinary from 'cloudinary';
 import cloudinaryConfig from './config/cloudinary.js';
 import adminRouter from './routes/adminRoutes.js';
-
+import {doctorRouter} from './routes/doctorRoutes.js';
+import {userRouter} from './routes/userRoutes.js';
 dotenv.config();
 
 
@@ -32,7 +33,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/admin', adminRouter);
-
+app.use('/api/doctor', doctorRouter);
+app.use('/api/user', userRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

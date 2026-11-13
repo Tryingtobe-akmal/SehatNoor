@@ -10,7 +10,6 @@ const DoctorsList = () => {
     if(aToken){
       getAllDoctors();
     }
-
   }, [aToken]);
 
   useEffect(() => {

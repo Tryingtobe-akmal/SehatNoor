@@ -9,10 +9,12 @@ import Appointments from "./pages/Appointments.jsx";
 import Navbar from "./components/navbar.jsx";
 import Contact from "./pages/Contact.jsx";
 import Footer from "./components/Footer.jsx";
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
     <div className="mx-3 flex min-h-screen flex-col sm:mx-[10%]">
+      <ToastContainer />
       <Navbar />
       <main className="flex-1">
         <Routes>
