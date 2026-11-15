@@ -1,16 +1,59 @@
 import React from 'react'
+import {AppContext} from '../context/AppContext.jsx'
+import { useContext } from 'react'
+import axios from 'axios'
+import {toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Login = () => {
+  const navigate = useNavigate()
+  const {backendUrl,token,SetToken} = useContext(AppContext)
   const [state,setState]=React.useState("Sign Up")
 
   const [email,setEmail]=React.useState("")
   const [password,setPassword]=React.useState("")
   const [name,setName]=React.useState("")
 
-  const handleSubmit=(e)=>async()=>{
+  const handleSubmit=async (e)=>{
+
     e.preventDefault()
+
+    try{
+      if(state==="Sign Up"){
+        const response = await axios.post(`${backendUrl}/api/user/register`,{name,email,password})
+          if(response.data.success){
+            localStorage.setItem('token', response.data.token);
+            SetToken(response.data.token)
+            toast.success(response.data.message)
+          }else{
+            toast.error(response.data.message)
+          }
+      }else{
+          const response = await axios.post(`${backendUrl}/api/user/login`,{email,password})
+            if(response.data.success){
+              localStorage.setItem('token', response.data.token);
+              SetToken(response.data.token)
+              toast.success(response.data.message)
+            }else{
+              toast.error(response.data.message)
+            } 
+      }
+    }catch(error){
+      toast.error(error.response?.data?.message || 'An error occurred while creating the account.')
+    }
   }
 
+
+// Redirect to home page if token exists
+  useEffect(() => {
+    if (token) {
+      navigate('/'); // Redirect to home page if token exists
+    }
+  }, [token]);
+
+
+  
   return (
     <form className="min-h-[80vh] " onSubmit={handleSubmit}>
       <div className="flex flex-col items-start p-8 gap-4 max-w-[340px] m-auto mt-10 border border-gray-200 rounded-xl text-zinc-600 shadow-lg"> 

@@ -1,13 +1,24 @@
 import {assets} from '../assets/assets.js'
 import { NavLink,useNavigate } from 'react-router-dom'
 import { useState } from 'react';
+import { useContext } from 'react';
+import { AppContext } from '../context/AppContext.jsx';
 
 const Navbar = () => {
     const navigate = useNavigate();
 
+    const {token,SetToken} = useContext(AppContext);
+
     const [showMenu, setShowMenu] = useState(false);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
-    const[token,setToken] = useState(true);
+
+    const handleLogout = () => {
+
+        SetToken(null);
+        localStorage.removeItem('token');
+        navigate('/');
+    }
+    
 
   return (
     <div className='flex justify-between items-center text-sm py-3 mb-5 border-b border-b-gray-400'>
@@ -42,7 +53,7 @@ const Navbar = () => {
                         <div className="min-w-48 bg-stone-100 rounded flex flex-col bg-white gap-4 p-4 shadow-lg">
                             <p onClick={()=>{setShowProfileMenu(false); navigate("/my-profile")}} className='hover:text-black cursor-pointer'>My Profile</p>
                             <p onClick={()=>{setShowProfileMenu(false); navigate("/my-appointments")}} className='hover:text-black cursor-pointer'>My Appointments</p>
-                            <p onClick={()=>{setShowProfileMenu(false); setToken(false)}} className='hover:text-black cursor-pointer'>Logout</p>
+                            <p onClick={()=>{setShowProfileMenu(false); handleLogout()}} className='hover:text-black cursor-pointer'>Logout</p>
                         </div>
                     </div>
                 </div> :
