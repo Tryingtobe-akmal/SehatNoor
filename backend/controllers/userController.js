@@ -2,6 +2,7 @@ import User from '../models/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
+import {v2 as cloudinary} from 'cloudinary';
 
 //API endpoint to register a new user
 
@@ -98,4 +99,37 @@ const getUserProfile = async (req, res) => {
     }
 }
 
-export { registerUser, loginUser, getUserProfile };
+//API endpoint to update the profile of the user
+
+const updateUserProfile = async (req, res) => {
+    try {
+        const { userId, name,phone,dob,gender,address} = req.body; // Assuming you have a middleware that sets req.body.userId after verifying the JWT token
+
+        const image=req.file;
+
+        if(!name||!phone||!dob||!gender||!address){
+            return res.status(400).json({ success: false, message: 'Please provide all required fields' });
+        }
+
+        await User.findByIdAndUpdate(userId, { name, phone, dob, gender, address:JSON.parse(address)}, { new: true });
+
+        if(image){
+            
+            //upload image to cloudinary
+            const result = await cloudinary.uploader.upload(image.path, {resource_type: "image"});
+            const imageUrl = result.secure_url;
+
+            await User.findByIdAndUpdate(userId, { image: imageUrl }, { new: true });
+        }
+
+        const user = await User.findById(userId).select('-password'); // Exclude password from the response
+
+        res.status(200).json({ success: true, message: 'User profile updated successfully', user });
+
+    } catch (error) {
+        console.error('Error updating user profile:', error);
+        res.status(500).json({ success: false, message: 'Server error', error });
+    }
+}
+
+export { registerUser, loginUser, getUserProfile, updateUserProfile };
